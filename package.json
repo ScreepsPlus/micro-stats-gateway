@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "axios": "^0.17.1",
-    "micro": "^9.1.0",
+    "micro": "^9.1.0"
   },
   "devDependencies": {
     "micro-dev": "^2.2.0"
