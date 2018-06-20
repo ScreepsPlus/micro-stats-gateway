@@ -1,0 +1,17 @@
+{
+  "name": "micro-auth",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "micro",
+    "dev": "micro-dev"
+  },
+  "dependencies": {
+    "axios": "^0.17.1",
+    "micro": "^9.1.0",
+  },
+  "devDependencies": {
+    "micro-dev": "^2.2.0"
+  }
+}
