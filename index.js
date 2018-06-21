@@ -16,7 +16,7 @@ const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS
 
 module.exports = async (req, res) => {
   const { origin } = req.headers
-  const { host, pathName, searchParams } = new URL(req.url)
+  const { pathName, searchParams } = new URL(req.url, 'http://localhost')
   const allowed = ALLOWED_ORIGINS.toLowerCase().split(' ')
   if (allowed.includes(origin.toLowerCase())) {
     res.setHeader('access-control-allow-origin', origin)
