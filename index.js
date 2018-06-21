@@ -18,7 +18,7 @@ module.exports = async (req, res) => {
   const { origin } = req.headers
   const { pathname, searchParams } = new URL(req.url, 'http://localhost')
   const allowed = ALLOWED_ORIGINS.toLowerCase().split(' ')
-  if (allowed.includes(origin.toLowerCase())) {
+  if (origin && allowed.includes(origin.toLowerCase())) {
     res.setHeader('access-control-allow-origin', origin)
     res.setHeader('access-control-allow-methods', 'POST, GET')
     res.setHeader('access-control-allow-headers', 'Content-Type, *')
@@ -44,22 +44,23 @@ async function auth(req) {
 }
 
 async function find (req, res) {
-  let { query: { query } } = req
+  const { query: params } = req
+  let query = params.get('query')
   if (query === '*' || query === 'screeps') {
     return metricMap(['screeps'], '')
   }
-  let orgs = await getOrgs(req)
+  const orgs = await getOrgs(req)
   let [, user = ''] = query.split('.')
   query = query.replace(user, user.toLowerCase())
   user = user.toLowerCase()
   let valid = orgs.includes(user)
   if (user === '*') {
-    let acl = `{${orgs.join(',')}}`
+    const acl = `{${orgs.join(',')}}`
     query = query.replace('screeps.*', `screeps.${acl}`)
     valid = true
   }
   if (valid) {
-    let resp = await backend.get('/metrics/find', { params: { query } })
+    const resp = await backend.get('/metrics/find', { params: { query } })
     return resp.data
   } else {
     send(res, 403, { error: 'Forbidden' })
