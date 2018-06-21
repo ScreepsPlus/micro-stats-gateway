@@ -16,7 +16,7 @@ const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS
 
 module.exports = async (req, res) => {
   const { origin } = req.headers
-  const { pathName, searchParams } = new URL(req.url, 'http://localhost')
+  const { pathname, searchParams } = new URL(req.url, 'http://localhost')
   const allowed = ALLOWED_ORIGINS.toLowerCase().split(' ')
   if (allowed.includes(origin.toLowerCase())) {
     res.setHeader('access-control-allow-origin', origin)
@@ -25,9 +25,9 @@ module.exports = async (req, res) => {
     res.setHeader('access-control-allow-credentials', 'true')
   }
   req.query = searchParams
-  if (pathName.match('/healthz')) return { healthy: true }
-  if (pathName.match('/find')) return find(req, res)
-  if (pathName.match('/render$')) return render(req, res)
+  if (pathname.match('/healthz')) return { healthy: true }
+  if (pathname.match('/find')) return find(req, res)
+  if (pathname.match('/render$')) return render(req, res)
   send(res, 404, { error: 'Not found' })
 }
 
