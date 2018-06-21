@@ -85,9 +85,9 @@ async function render (req, res) {
 
 async function getOrgs (req) {
   const user = auth(req)
-  return [user.prefered_username || user.username || user.nickname]
-  let { data: orgs } = await grafana.get('/api/user/orgs', { headers: { 'Cookie': cookie } })
-  return orgs.map(o => o.Name.toLowerCase())
+  if (!user) return []
+  // TODO: Get this list dynamically
+  return [user.username || user.nickname]
 }
 
 function metricMap (list, base) {
